@@ -62,8 +62,8 @@ void NGLScene::initializeGL()
   // we are creating a shader called RayMarch
   shader->createShaderProgram("RayMarch");
   // now we are going to create empty shaders for Frag and Vert
-  shader->attachShader("RayMarchVertex",ngl::VERTEX);
-  shader->attachShader("RayMarchFragment",ngl::FRAGMENT);
+  shader->attachShader("RayMarchVertex",ngl::ShaderType::VERTEX);
+  shader->attachShader("RayMarchFragment",ngl::ShaderType::FRAGMENT);
   // attach the source
   shader->loadShaderSource("RayMarchVertex","shaders/RayMarchVertex.glsl");
   shader->loadShaderSource("RayMarchFragment","shaders/RayMarchFragment.glsl");
