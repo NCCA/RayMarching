@@ -37,11 +37,11 @@ NGLScene::~NGLScene()
   std::cout<<"Shutting down NGL, removing VAO's and Shaders\n";
 }
 
-void NGLScene::resizeGL(int _w, int _h)
+void NGLScene::resizeGL(QResizeEvent *_event)
 {
-  // set the viewport for openGL
-  glViewport(0,0,_w,_h);
-  update();
+  m_width=_event->size().width()*devicePixelRatio();
+  m_height=_event->size().height()*devicePixelRatio();
+
 }
 
 
@@ -80,7 +80,7 @@ void NGLScene::initializeGL()
   shader->setUniform("time",0.0f);
 
 
-  m_screenQuad = new ScreenQuad("RayMarch");
+  m_screenQuad.reset( new ScreenQuad("RayMarch"));
   // as re-size is not explicitly called we need to do this.
   glViewport(0,0,width(),height());
   startTimer(10);
