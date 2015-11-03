@@ -15,10 +15,6 @@ class ScreenQuad
   private :
     GLuint m_vao;
     std::string m_shader;
-    int m_windowW;
-    int m_windowH;
-
-
 
 };
 
