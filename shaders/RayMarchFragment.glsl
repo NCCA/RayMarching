@@ -201,11 +201,11 @@ vec2 distance_to_obj(in vec3 p)
 	//return obj_union(obj_floor(p), opTwist(p));
 	//return obj_union(obj_floor(p), obj_torus_44(p));
 	//return obj_union(obj_floor(p), obj_round_box(p));
-  return obj_union(obj_floor(p), op_union(obj_round_box(p), obj_sphere(p)));
-	//return obj_union(obj_floor(p), op_union(obj_round_box(p), obj_torus_42(p)));
+  //return obj_union(obj_floor(p), op_union(obj_round_box(p), obj_sphere(p)));
+  //return obj_union(obj_floor(p), op_union(obj_round_box(p), obj_torus_42(p)));
   //return obj_union(obj_floor(p), op_blend(p, obj_round_box(p), obj_torus(p)));
 	//return obj_union(obj_floor(p), op_sub(obj_round_box(p), obj_sphere(p)));
-  //return obj_union(obj_floor(p), op_rep(p, vec3(8.0, 8.0, 8.0)));
+  return obj_union(obj_floor(p), op_rep(p, vec3(8.0, 8.0, 8.0)));
   //return obj_union(obj_floor(p),op_displace(p));
 }
 
