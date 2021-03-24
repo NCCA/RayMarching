@@ -71,8 +71,7 @@ ScreenQuad::~ScreenQuad()
 void ScreenQuad::draw()
 {
 
-  ngl::ShaderLib *shader = ngl::ShaderLib::instance();
-  shader->use(m_shader);
+ ngl::ShaderLib::use(m_shader);
   glBindVertexArray(m_vao);
   glDrawArrays(GL_TRIANGLES,0,6);
   glBindVertexArray(0);

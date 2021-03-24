@@ -32,35 +32,32 @@ void NGLScene::initializeGL()
 {
   // we must call this first before any other GL commands to load and link the
   // gl commands from the lib, if this is not done program will crash
-  ngl::NGLInit::instance();
+  ngl::NGLInit::initialize();
 
   glClearColor(0.4f, 0.4f, 0.4f, 1.0f);			   // Grey Background
   // enable depth testing for drawing
   glEnable(GL_DEPTH_TEST);
   // enable multisampling for smoother drawing
   glEnable(GL_MULTISAMPLE);
-   // now to load the shader and set the values
-  // grab an instance of shader manager
-  ngl::ShaderLib *shader=ngl::ShaderLib::instance();
   // we are creating a shader called RayMarch
-  shader->createShaderProgram("RayMarch");
+  ngl::ShaderLib::createShaderProgram("RayMarch");
   // now we are going to create empty shaders for Frag and Vert
-  shader->attachShader("RayMarchVertex",ngl::ShaderType::VERTEX);
-  shader->attachShader("RayMarchFragment",ngl::ShaderType::FRAGMENT);
+  ngl::ShaderLib::attachShader("RayMarchVertex",ngl::ShaderType::VERTEX);
+  ngl::ShaderLib::attachShader("RayMarchFragment",ngl::ShaderType::FRAGMENT);
   // attach the source
-  shader->loadShaderSource("RayMarchVertex","shaders/RayMarchVertex.glsl");
-  shader->loadShaderSource("RayMarchFragment","shaders/RayMarchFragment.glsl");
+  ngl::ShaderLib::loadShaderSource("RayMarchVertex","shaders/RayMarchVertex.glsl");
+  ngl::ShaderLib::loadShaderSource("RayMarchFragment","shaders/RayMarchFragment.glsl");
   // compile the shaders
-  shader->compileShader("RayMarchVertex");
-  shader->compileShader("RayMarchFragment");
+  ngl::ShaderLib::compileShader("RayMarchVertex");
+  ngl::ShaderLib::compileShader("RayMarchFragment");
   // add them to the program
-  shader->attachShaderToProgram("RayMarch","RayMarchVertex");
-  shader->attachShaderToProgram("RayMarch","RayMarchFragment");
-  shader->linkProgramObject("RayMarch");
-  shader->use("RayMarch");
-  shader->setUniform("mouse",ngl::Vec2(23,23));
-  shader->setUniform("cam_pos",ngl::Vec3(0.0,0.0,4.0));
-  shader->setUniform("time",0.0f);
+  ngl::ShaderLib::attachShaderToProgram("RayMarch","RayMarchVertex");
+  ngl::ShaderLib::attachShaderToProgram("RayMarch","RayMarchFragment");
+  ngl::ShaderLib::linkProgramObject("RayMarch");
+  ngl::ShaderLib::use("RayMarch");
+  ngl::ShaderLib::setUniform("mouse",ngl::Vec2(23,23));
+  ngl::ShaderLib::setUniform("cam_pos",ngl::Vec3(0.0,0.0,4.0));
+  ngl::ShaderLib::setUniform("time",0.0f);
 
 
   m_screenQuad.reset( new ScreenQuad("RayMarch"));
@@ -73,9 +70,8 @@ void NGLScene::initializeGL()
 
 void NGLScene::loadMatricesToShader()
 {
-  ngl::ShaderLib *shader=ngl::ShaderLib::instance();
-  shader->setUniform("mouse",ngl::Vec2(m_win.spinXFace,m_win.spinYFace));
-  shader->setUniform("cam_pos",ngl::Vec3(0.0,0.0,4.0));
+  ngl::ShaderLib::setUniform("mouse",ngl::Vec2(m_win.spinXFace,m_win.spinYFace));
+  ngl::ShaderLib::setUniform("cam_pos",ngl::Vec3(0.0,0.0,4.0));
 
 }
 
@@ -84,9 +80,7 @@ void NGLScene::paintGL()
   // clear the screen and depth buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  // grab an instance of the shader manager
-  ngl::ShaderLib *shader=ngl::ShaderLib::instance();
-  (*shader)["RayMarch"]->use();
+  ngl::ShaderLib::use("RayMarch");
   loadMatricesToShader();
   m_screenQuad->draw();
 }
@@ -119,10 +113,8 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
 void NGLScene::timerEvent(QTimerEvent *_event)
 {
   static float t=0.0;
-  // grab an instance of the shader manager
-  ngl::ShaderLib *shader=ngl::ShaderLib::instance();
-  (*shader)["RayMarch"]->use();
-  shader->setUniform("time",t);
+  ngl::ShaderLib::use("RayMarch");
+  ngl::ShaderLib::setUniform("time",t);
   t+=0.01;
   if(t > 5.0)
     t=0.0;
